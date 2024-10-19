@@ -3,7 +3,7 @@ requires = ["setuptools", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "TGGateway"
+name = "PyTGGateway"
 version = "1.0.0"
 description = "Telegram Gateway API Wrapper"
 readme = "README.md"
