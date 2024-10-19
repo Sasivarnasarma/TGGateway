@@ -17,7 +17,7 @@ This wrapper simplifies the process of sending verification messages, checking t
 ## Installation
 You can install the package via `pip`:
 ```bash
-python3 -m  pip  install  TGGateway
+python3 -m  pip  install  PyTGGateway
 ```
 
 ## Usage
