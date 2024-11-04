@@ -10,7 +10,7 @@ class AsyncTGGateway:
     Telegram Gateway Async API Client
     """
 
-    __slots__ = ('_is_closed', 'access_token', 'session')
+    __slots__ = ("_is_closed", "access_token", "session")
 
     def __init__(self, access_token: str):
         """
@@ -25,13 +25,13 @@ class AsyncTGGateway:
         self._is_closed = False
         self.access_token = access_token
         self.session = AsyncClient()
-    
+
     async def __aenter__(self):
         return self
 
     async def __aexit__(self, type, value, traceback):
         await self.close()
-    
+
     async def _convert_result(self, data: dict) -> RequestStatus:
         """
         Convert raw API response to RequestStatus object
@@ -46,37 +46,38 @@ class AsyncTGGateway:
         RequestStatus
             A RequestStatus object containing the parsed data
         """
-        ds_data = data.get('delivery_status')
+        ds_data = data.get("delivery_status")
         delivery_status = None
         if ds_data:
             delivery_status = DeliveryStatus(
-                status=ds_data['status'],
-                updated_at=ds_data['updated_at']
-        )
-            
-        vs_data = data.get('verification_status')
+                status=ds_data["status"], updated_at=ds_data["updated_at"]
+            )
+
+        vs_data = data.get("verification_status")
         verification_status = None
         if vs_data:
             verification_status = VerificationStatus(
-                status=vs_data['status'],
-                updated_at=vs_data['updated_at'],
-                code_entered=vs_data.get('code_entered')
+                status=vs_data["status"],
+                updated_at=vs_data["updated_at"],
+                code_entered=vs_data.get("code_entered"),
             )
-        
+
         request_status = None
         request_status = RequestStatus(
-            request_id=data['request_id'],
-            phone_number=data['phone_number'],
-            request_cost=data['request_cost'],
-            remaining_balance=data.get('remaining_balance'),
+            request_id=data["request_id"],
+            phone_number=data["phone_number"],
+            request_cost=data["request_cost"],
+            remaining_balance=data.get("remaining_balance"),
             delivery_status=delivery_status,
             verification_status=verification_status,
-            payload=data.get('payload')
+            payload=data.get("payload"),
         )
 
         return request_status
 
-    async def _request(self, method: str, values: dict = None) ->  Union[RequestStatus, bool]:
+    async def _request(
+        self, method: str, values: dict = None
+    ) -> Union[RequestStatus, bool]:
         """
         Makes a request to the Telegram Gateway API
 
@@ -91,7 +92,7 @@ class AsyncTGGateway:
         -------
         Union[RequestStatus, bool]
             The result of the request. Only if the method is 'revokeVerificationMessage' returns True. Otherwise returns a RequestStatus object
-        
+
         Raises
         ------
         TGGatewayException
@@ -101,27 +102,31 @@ class AsyncTGGateway:
         ResponseNotOk
             If the HTTP response code is not 200
         """
-        if self._is_closed: raise RuntimeError('Once the client instance has been closed, no more requests can be made.')
+        if self._is_closed:
+            raise RuntimeError(
+                "Once the client instance has been closed, no more requests can be made."
+            )
 
         values = values.copy() if values is not None else {}
-        values['access_token'] = self.access_token
+        values["access_token"] = self.access_token
 
-        response = await self.session.post(f'https://gatewayapi.telegram.org/{method}',
-            json=values
+        response = await self.session.post(
+            f"https://gatewayapi.telegram.org/{method}", json=values
         )
 
         if response.status_code >= 400:
             raise ResponseNotOk(response)
-        
+
         response = response.json()
-        if response.get('ok'):
-            if method == 'revokeVerificationMessage': return True
-            result = response.get('result', {})
+        if response.get("ok"):
+            if method == "revokeVerificationMessage":
+                return True
+            result = response.get("result", {})
             return await self._convert_result(result)
         else:
-            error = response.get('error', 'UNKNOWN_ERROR')
+            error = response.get("error", "UNKNOWN_ERROR")
             raise ApiError(error)
-    
+
     async def getAccessToken(self) -> str:
         """
         Get the current access token that is being used
@@ -132,20 +137,21 @@ class AsyncTGGateway:
             The current access token
         """
         return self.access_token
-    
+
     async def sendVerificationMessage(
-            self,
-            phone_number: str,
-            request_id: str = None,
-            sender_username: str = None,
-            code: str = None,
-            code_length: int = None,
-            callback_url: str = None,
-            payload: str = None,
-            ttl: int = None
-        ) -> RequestStatus:
+        self,
+        phone_number: str,
+        request_id: str = None,
+        sender_username: str = None,
+        code: str = None,
+        code_length: int = None,
+        callback_url: str = None,
+        payload: str = None,
+        ttl: int = None,
+    ) -> RequestStatus:
         """
-        Use this method to send a verification message.
+        **Use this method to send a verification message.**
+
         For more info check: https://core.telegram.org/gateway/api#sendverificationmessage
 
         Parameters
@@ -173,7 +179,7 @@ class AsyncTGGateway:
         payload: str
             Custom payload, 0-128 bytes. This will not be displayed to the user, use it for your internal processes.
         ttl: int
-            Time-to-live (in seconds) before the message expires and is deleted. 
+            Time-to-live (in seconds) before the message expires and is deleted.
             he message will not be deleted if it has already been read.
             If not specified, the message will not be deleted.
             Supported values are from 60 to 86400.
@@ -184,22 +190,19 @@ class AsyncTGGateway:
             A RequestStatus object containing the result of the request
         """
         values = {
-            'phone_number': phone_number,
-            'request_id' : request_id,
-            'sender_username' : sender_username,
-            'code': code,
-            'code_length': code_length,
-            'callback_url': callback_url,
-            'payload': payload,
-            'ttl' : ttl
+            "phone_number": phone_number,
+            "request_id": request_id,
+            "sender_username": sender_username,
+            "code": code,
+            "code_length": code_length,
+            "callback_url": callback_url,
+            "payload": payload,
+            "ttl": ttl,
         }
-        result = await self._request('sendVerificationMessage', values)
+        result = await self._request("sendVerificationMessage", values)
         return result
-    
-    async def checkSendAbility(
-            self,
-            phone_number: str
-        ) -> RequestStatus:
+
+    async def checkSendAbility(self, phone_number: str) -> RequestStatus:
         """
         Use this method to optionally check the ability to send a verification message to the specified phone number.
         For more info check: https://core.telegram.org/gateway/api#checksendability
@@ -214,15 +217,13 @@ class AsyncTGGateway:
         RequestStatus
             A RequestStatus object containing the result of the request
         """
-        values = { 'phone_number': phone_number }
-        result = await self._request('checkSendAbility', values)
+        values = {"phone_number": phone_number}
+        result = await self._request("checkSendAbility", values)
         return result
-    
+
     async def checkVerificationStatus(
-            self,
-            request_id: str,
-            code: str = None
-        ) -> RequestStatus:
+        self, request_id: str, code: str = None
+    ) -> RequestStatus:
         """
         Use this method to check the status of a verification message that was sent previously.
         For more info check: https://core.telegram.org/gateway/api#checkverificationstatus
@@ -241,16 +242,16 @@ class AsyncTGGateway:
             A RequestStatus object containing the result of the request
         """
         values = {
-            'request_id' : request_id,
-            'code': code,
+            "request_id": request_id,
+            "code": code,
         }
-        result = await self._request('checkVerificationStatus', values)
+        result = await self._request("checkVerificationStatus", values)
         return result
-    
+
     async def revokeVerificationMessage(
-            self,
-            request_id: str,
-        ) -> bool:
+        self,
+        request_id: str,
+    ) -> bool:
         """
         Use this method to revoke a verification message that was sent previously.
         For more info check: https://core.telegram.org/gateway/api#revokeverificationmessage
@@ -265,17 +266,16 @@ class AsyncTGGateway:
         bool
             Returns True if the revocation request was received by server.
         """
-        values = { 'request_id' : request_id }
-        result = await self._request('revokeVerificationMessage', values)
+        values = {"request_id": request_id}
+        result = await self._request("revokeVerificationMessage", values)
         return result
 
     async def close(self):
         """
-        Close the client instance. 
-        After calling this method, the client instance will no longer be usable and any attempts to make requests will raise an exception. 
+        Close the client instance.
+        After calling this method, the client instance will no longer be usable and any attempts to make requests will raise an exception.
         """
         if not self._is_closed:
             self._is_closed = True
             self.access_token = None
             await self.session.close()
-    
