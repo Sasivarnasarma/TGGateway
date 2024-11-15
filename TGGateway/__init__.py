@@ -12,7 +12,7 @@ Copyright (C) 2024
 
 __title__ = "TGGateway"
 __author__ = "Sasivarnasarma"
-__version__ = "1.0.0"
+__version__ = "1.0.3"
 __all__ = (
     "__version__",
     "TGGateway",

@@ -11,10 +11,10 @@ Copyright (C) 2024
 from setuptools import setup, find_packages
 
 
-version = '1.0.2'
+version = '1.0.3'
 
 setup(
-    name='TGGateway',
+    name='PyTGGateway',
     version=version,
     author='Sasivarnasarma',
     author_email='sasivarnasarma@protonmail.com',
