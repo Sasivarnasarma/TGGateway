@@ -5,7 +5,7 @@ from typing import Literal, Optional
 @dataclass
 class DeliveryStatus:
     status: Literal[
-        "sent", "read", "revoked"
+        "sent", "delivered", "read", "expired", "revoked"
     ]  # The current status of the message.
     updated_at: (
         int  # Status last updated Timestamp as an integer (Unix timestamp)
@@ -29,6 +29,9 @@ class RequestStatus:
     request_id: str  # Unique identifier for the verification request
     phone_number: str  # Phone number in E.164 format
     request_cost: float  # Total cost of the request
+    is_refunded: Optional[
+        bool
+    ]  # Optional. If True, the request fee was refunded.
     remaining_balance: Optional[
         float
     ]  # Optional. Remaining balance in credits

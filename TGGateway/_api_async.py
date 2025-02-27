@@ -67,6 +67,7 @@ class AsyncTGGateway:
             request_id=data["request_id"],
             phone_number=data["phone_number"],
             request_cost=data["request_cost"],
+            is_refunded=data.get("is_refunded"),
             remaining_balance=data.get("remaining_balance"),
             delivery_status=delivery_status,
             verification_status=verification_status,
@@ -182,7 +183,7 @@ class AsyncTGGateway:
             Time-to-live (in seconds) before the message expires and is deleted.
             he message will not be deleted if it has already been read.
             If not specified, the message will not be deleted.
-            Supported values are from 60 to 86400.
+            Supported values are from 30 to 3600.
 
         Returns
         -------
