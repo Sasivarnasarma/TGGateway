@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "PyTGGateway"
-version = "1.0.3"
+version = "2.0.0"
 description = "Telegram Gateway API Wrapper"
 readme = "README.md"
 authors = [{ name = "Sasivarnasarma", email = "sasivarnasarma@protonmail.com" }]
