@@ -1,3 +1,16 @@
+# -*- coding: utf-8 -*-
+
+"""Python Telegram Gateway API wrapper.
+For detailed API references, check the Official API Documentation
+https://core.telegram.org/gateway/api
+
+@author: Sasivarnasarma
+@contact: sasivarnasarma@protonmail.com
+@license MIT License, see LICENSE file
+
+Copyright (C) 2024-2025
+"""
+
 from typing import Union
 from httpx import Client
 
@@ -172,7 +185,7 @@ class TGGateway:
             Use the checkVerificationStatus method with the code parameter to
                 verify the code entered by the user.
         callback_url: str
-            An HTTPS URL where you want to receive delivery reports related to 
+            An HTTPS URL where you want to receive delivery reports related to
                 the sent message, 0-256 bytes.
         payload: str
             Custom payload, 0-128 bytes. This will not be displayed to the user,

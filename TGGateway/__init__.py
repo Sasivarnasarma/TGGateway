@@ -8,7 +8,7 @@ https://core.telegram.org/gateway/api
 @contact: sasivarnasarma@protonmail.com
 @license MIT License, see LICENSE file
 
-Copyright (C) 2025
+Copyright (C) 2024-2025
 """
 
 __title__ = "TGGateway"

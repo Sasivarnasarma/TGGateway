@@ -11,20 +11,18 @@ Copyright (C) 2024
 from setuptools import setup, find_packages
 
 
-version = '1.0.3'
+VERSION = '1.0.3'
 
 setup(
     name='PyTGGateway',
-    version=version,
+    version=VERSION,
     author='Sasivarnasarma',
     author_email='sasivarnasarma@protonmail.com',
     url='https://github.com/Sasivarnasarma/TGGateway',
     description='Telegram Gateway API Wrapper',
-    long_description=open('README.md').read(),
+    long_description=open('README.md', encoding="utf-8").read(),
     long_description_content_type='text/markdown',
-    download_url='https://github.com/Sasivarnasarma/TGGateway/archive/v{}.zip'.format(
-        version
-    ),
+    download_url=f'https://github.com/Sasivarnasarma/TGGateway/archive/v{VERSION}.zip',
     license='MIT',
     packages=find_packages(),
     install_requires=['httpx'],

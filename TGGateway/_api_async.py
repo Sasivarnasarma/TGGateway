@@ -1,3 +1,16 @@
+# -*- coding: utf-8 -*-
+
+"""Python Telegram Gateway API wrapper.
+For detailed API references, check the Official API Documentation
+https://core.telegram.org/gateway/api
+
+@author: Sasivarnasarma
+@contact: sasivarnasarma@protonmail.com
+@license MIT License, see LICENSE file
+
+Copyright (C) 2024-2025
+"""
+
 from typing import Union
 from httpx import AsyncClient
 
@@ -87,7 +100,7 @@ class AsyncTGGateway:
         Returns
         -------
         Union[RequestStatus, bool]
-            The result of the request. Only if the method is 'revokeVerificationMessage' 
+            The result of the request. Only if the method is 'revokeVerificationMessage'
                 returns True. Otherwise returns a RequestStatus object
 
         Raises
@@ -169,7 +182,7 @@ class AsyncTGGateway:
             The length of the verification code if Telegram needs to generate it for you.
             Supported values are from 4 to 8.
             This is only relevant if you are not using the code parameter to set your own code.
-            Use the checkVerificationStatus method with the code parameter to 
+            Use the checkVerificationStatus method with the code parameter to
                 verify the code entered by the user.
         callback_url: str
             An HTTPS URL where you want to receive delivery reports related to
