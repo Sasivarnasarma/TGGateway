@@ -7,9 +7,7 @@ class DeliveryStatus:
     status: Literal[
         "sent", "delivered", "read", "expired", "revoked"
     ]  # The current status of the message.
-    updated_at: (
-        int  # Status last updated Timestamp as an integer (Unix timestamp)
-    )
+    updated_at: int  # Status last updated Timestamp as an integer (Unix timestamp)
 
 
 @dataclass
@@ -17,9 +15,7 @@ class VerificationStatus:
     status: Literal[
         "code_valid", "code_invalid", "code_max_attempts_exceeded", "expired"
     ]  # The current status of the verification process
-    updated_at: (
-        int  # Status last updated Timestamp as an integer (Unix timestamp)
-    )
+    updated_at: int  # Status last updated Timestamp as an integer (Unix timestamp)
     code_entered: Optional[str]  # Optional. The code entered by the user
 
 
@@ -29,12 +25,8 @@ class RequestStatus:
     request_id: str  # Unique identifier for the verification request
     phone_number: str  # Phone number in E.164 format
     request_cost: float  # Total cost of the request
-    is_refunded: Optional[
-        bool
-    ]  # Optional. If True, the request fee was refunded.
-    remaining_balance: Optional[
-        float
-    ]  # Optional. Remaining balance in credits
+    is_refunded: Optional[bool]  # Optional. If True, the request fee was refunded.
+    remaining_balance: Optional[float]  # Optional. Remaining balance in credits
     delivery_status: Optional[
         DeliveryStatus
     ]  # Optional. The current message delivery status

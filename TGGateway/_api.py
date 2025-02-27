@@ -1,20 +1,17 @@
-from httpx import Client
 from typing import Union
+from httpx import Client
 
 from .types import DeliveryStatus, RequestStatus, VerificationStatus
 from .exceptions import ApiError, ResponseNotOk
 
 
 class TGGateway:
-    """
-    Telegram Gateway API Client
-    """
+    """Telegram Gateway API Client."""
 
     __slots__ = ("_is_closed", "access_token", "session")
 
     def __init__(self, access_token: str):
-        """
-        Telegram Gateway API Client
+        """Telegram Gateway API Client.
 
         Parameters
         ----------
@@ -29,12 +26,11 @@ class TGGateway:
     def __enter__(self):
         return self
 
-    def __exit__(self, type, value, traceback):
+    def __exit__(self, exc_type, exc_value, traceback):
         self.close()
 
     def _convert_result(self, data: dict) -> RequestStatus:
-        """
-        Convert raw API response to RequestStatus object
+        """Convert raw API response to RequestStatus object.
 
         Parameters
         ----------
@@ -79,8 +75,7 @@ class TGGateway:
     def _request(
         self, method: str, values: dict
     ) -> Union[RequestStatus, bool]:
-        """
-        Makes a request to the Telegram Gateway API
+        """Makes a request to the Telegram Gateway API.
 
         Parameters
         ----------
@@ -92,7 +87,8 @@ class TGGateway:
         Returns
         -------
         Union[RequestStatus, bool]
-            The result of the request. Only if the method is 'revokeVerificationMessage' returns True. Otherwise returns a RequestStatus object
+            The result of the request. Only if the method is 'revokeVerificationMessage'
+                returns True. Otherwise returns a RequestStatus object
 
         Raises
         ------
@@ -129,8 +125,7 @@ class TGGateway:
             raise ApiError(error)
 
     def getAccessToken(self) -> str:
-        """
-        Get the current access token that is being used
+        """Get the current access token that is being used.
 
         Returns
         -------
@@ -150,8 +145,7 @@ class TGGateway:
         payload: str = None,
         ttl: int = None,
     ) -> RequestStatus:
-        """
-        **Use this method to send a verification message.**
+        """**Use this method to send a verification message.**
 
         For more info check: https://core.telegram.org/gateway/api#sendverificationmessage
 
@@ -164,7 +158,8 @@ class TGGateway:
             If provided, this request will be free of charge.
         sender_username: str
             Username of the Telegram channel from which the code will be sent.
-            The specified channel, if any, must be verified and owned by the same account who owns the Gateway API token.
+            The specified channel, if any, must be verified and owned by the same account
+                who owns the Gateway API token.
         code: str
             The verification code.
             Use this parameter if you want to set the verification code yourself.
@@ -174,11 +169,14 @@ class TGGateway:
             The length of the verification code if Telegram needs to generate it for you.
             Supported values are from 4 to 8.
             This is only relevant if you are not using the code parameter to set your own code.
-            Use the checkVerificationStatus method with the code parameter to verify the code entered by the user.
+            Use the checkVerificationStatus method with the code parameter to
+                verify the code entered by the user.
         callback_url: str
-            An HTTPS URL where you want to receive delivery reports related to the sent message, 0-256 bytes.
+            An HTTPS URL where you want to receive delivery reports related to 
+                the sent message, 0-256 bytes.
         payload: str
-            Custom payload, 0-128 bytes. This will not be displayed to the user, use it for your internal processes.
+            Custom payload, 0-128 bytes. This will not be displayed to the user,
+                use it for your internal processes.
         ttl: int
             Time-to-live (in seconds) before the message expires and is deleted.
             he message will not be deleted if it has already been read.
@@ -205,7 +203,8 @@ class TGGateway:
 
     def checkSendAbility(self, phone_number: str) -> RequestStatus:
         """
-        Use this method to optionally check the ability to send a verification message to the specified phone number.
+        Use this method to optionally check the ability to send a verification message
+            to the specified phone number.
         For more info check: https://core.telegram.org/gateway/api#checksendability
 
         Parameters
@@ -272,9 +271,11 @@ class TGGateway:
         return result
 
     def close(self):
-        """
-        Close the client instance.
-        After calling this method, the client instance will no longer be usable and any attempts to make requests will raise an exception.
+        """Close the client instance.
+
+        After calling this method, the client instance will no longer be
+        usable and any attempts to make requests will raise an
+        exception.
         """
         if not self._is_closed:
             self._is_closed = True

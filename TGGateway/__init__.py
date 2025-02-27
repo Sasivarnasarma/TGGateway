@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 
-"""
-Python Telegram Gateway API wrapper
+"""Python Telegram Gateway API wrapper.
+For detailed API references, check the Official API Documentation
+https://core.telegram.org/gateway/api
 
 @author: Sasivarnasarma
 @contact: sasivarnasarma@protonmail.com
 @license MIT License, see LICENSE file
 
-Copyright (C) 2024
+Copyright (C) 2025
 """
 
 __title__ = "TGGateway"
