@@ -1,10 +1,4 @@
 # This workflow will upload a Python Package using Twine when a release is created
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python#publishing-to-package-registries
-
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
 
 name: Upload Python Package
 
@@ -14,12 +8,12 @@ on:
 
 permissions:
   contents: write
+  id-token: write
 
 jobs:
   deploy:
-
     runs-on: ubuntu-latest
-
+    
     steps:
     - uses: actions/checkout@v4
     - name: Set up Python
@@ -33,10 +27,9 @@ jobs:
     - name: Build package
       run: python -m build
     - name: Publish package
-      uses: pypa/gh-action-pypi-publish@27b31702a0e7fc50959f5ad993c78deac1bdfc29
+      uses: pypa/gh-action-pypi-publish@v1.12.4
       with:
-        user: __token__
-        password: ${{ secrets.PYPI_API_TOKEN }}
+        repository-url: https://upload.pypi.org/legacy/
     - name: Upload .whl to GitHub Release
       uses: softprops/action-gh-release@v2
       with:
