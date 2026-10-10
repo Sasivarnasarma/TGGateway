@@ -192,7 +192,7 @@ class TGGateway:
                 use it for your internal processes.
         ttl: int
             Time-to-live (in seconds) before the message expires and is deleted.
-            he message will not be deleted if it has already been read.
+            The message will not be deleted if it has already been read.
             If not specified, the message will not be deleted.
             Supported values are from 30 to 3600.
 
